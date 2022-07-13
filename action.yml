@@ -1,0 +1,26 @@
+name: backup FreshRSS data
+description: >-
+  Export FreshRSS data (feed list and started or tagged articles).
+inputs:
+  base_url:
+    description: URL of your FreshRSS service
+    required: true
+  username:
+    description: Username of the FreshRSS account that you want to export.
+    required: true
+  password:
+    description: Password of the FreshRSS account that you want to export.
+    required: true
+  target:
+    description: '[Optional] The directory to wipe and replace in the target repository'
+    default: ''
+    required: false
+branding:
+  icon: archive
+  color: white
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v3
+    - run: $GITHUB_ACTION_PATH/scripts/backup.sh ${{ inputs.base_url }} ${{ inputs.username }} "${{ inputs.password }}" ${{ inputs.target }}
+      shell: bash
